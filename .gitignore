@@ -14,6 +14,7 @@ Cargo.lock
 
 
 *.v
+!/misc/*.v
 *.vcd
 /src/*.rs
 !/src/main.rs
