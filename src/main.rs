@@ -13,18 +13,12 @@ fn main() -> std::io::Result<()> {
     let tracer = VcdTrace::new(f, 100u32, TimeScaleUnit::Ms)?;
     let mut td4 = td4_sim::TD4::new("td4", tracer).unwrap();
 
-    let memory: Vec<u32> = vec![
-        0b10110011, 0b10110110, 0b10111100, 0b10111000, 0b10111000, 0b10111100, 0b10110110,
-        0b10110011, 0b10110001, 0b11110000,
-    ];
-
     td4.reset();
     td4.in_ = 0x0u32;
     for i in 0..64 {
         td4.prop();
         td4.update_trace(i);
 
-        td4.data = memory[td4.addr as usize];
         td4.prop();
         td4.posedge_clk();
     }
@@ -246,9 +240,7 @@ fn test_td4() {
     td4.reset();
     td4.prop();
     assert_eq!(td4.out, 0b0000u32);
-    assert_eq!(td4.addr, 0b0000u32);
 
-    td4.data = memory[td4.addr as usize];
     td4.in_ = 0x0u32;
     td4.prop();
     td4.posedge_clk();
@@ -256,70 +248,60 @@ fn test_td4() {
 
     assert_eq!(td4.out, 0b0011u32);
 
-    td4.data = memory[td4.addr as usize];
     td4.prop();
     td4.posedge_clk();
     td4.prop();
 
     assert_eq!(td4.out, 0b0110u32);
 
-    td4.data = memory[td4.addr as usize];
     td4.prop();
     td4.posedge_clk();
     td4.prop();
 
     assert_eq!(td4.out, 0b1100u32);
 
-    td4.data = memory[td4.addr as usize];
     td4.prop();
     td4.posedge_clk();
     td4.prop();
 
     assert_eq!(td4.out, 0b1000u32);
 
-    td4.data = memory[td4.addr as usize];
     td4.prop();
     td4.posedge_clk();
     td4.prop();
 
     assert_eq!(td4.out, 0b1000u32);
 
-    td4.data = memory[td4.addr as usize];
     td4.prop();
     td4.posedge_clk();
     td4.prop();
 
     assert_eq!(td4.out, 0b1100u32);
 
-    td4.data = memory[td4.addr as usize];
     td4.prop();
     td4.posedge_clk();
     td4.prop();
 
     assert_eq!(td4.out, 0b0110u32);
 
-    td4.data = memory[td4.addr as usize];
     td4.prop();
     td4.posedge_clk();
     td4.prop();
 
     assert_eq!(td4.out, 0b0011u32);
 
-    td4.data = memory[td4.addr as usize];
     td4.prop();
     td4.posedge_clk();
     td4.prop();
 
     assert_eq!(td4.out, 0b0001u32);
 
-    td4.data = memory[td4.addr as usize];
     td4.prop();
     td4.posedge_clk();
     td4.prop();
 
     assert_eq!(td4.out, 0b0001u32);
 
-    td4.data = memory[td4.addr as usize];
     td4.prop();
     td4.posedge_clk();
     td4.prop();

@@ -3,16 +3,18 @@ use kaze::*;
 pub fn td4<'a>(c: &'a Context<'a>) {
     let td4 = c.module("TD4");
 
-    let data = td4.input("data", 8);
-    let op = data.bits(7, 4);
-    let immediate = data.bits(3, 0);
-
-    let in_ = td4.input("in_", 4);
-
     let reg_a = td4.instance("reg_a", "Register");
     let reg_b = td4.instance("reg_b", "Register");
     let reg_out = td4.instance("reg_out", "Register");
     let pc = td4.instance("pc", "ProgramCounter");
+
+    let memory = td4.instance("memory", "Memory");
+    let data = memory.output("data");
+    let op = data.bits(7, 4);
+    let immediate = data.bits(3, 0);
+    memory.drive_input("addr", pc.output("addr"));
+
+    let in_ = td4.input("in_", 4);
 
     let decoder = td4.instance("decoder", "Decoder");
     let select = decoder.output("select");
@@ -48,5 +50,4 @@ pub fn td4<'a>(c: &'a Context<'a>) {
     decoder.drive_input("carry", carry);
 
     td4.output("out", reg_out.output("value"));
-    td4.output("addr", pc.output("addr"));
 }
